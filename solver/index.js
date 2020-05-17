@@ -1,4 +1,5 @@
 const deepClone = arr => arr.map(row=>[].concat(row));
+const rounder = n => Math.round(n*10000000000)/10000000000;
 
 const triangularize = (matrix, indep) => {
   const m = deepClone(matrix);
@@ -29,17 +30,6 @@ const backSubstitute = (matrix, indep) => {
 
 const solve = (coefficients, independent) => backSubstitute(...triangularize(coefficients, independent));
 
-
-const example = [
-  [1,1,-2],
-  [2,-1,4],
-  [2,-1,6]
-];
-const ind = [
-  [9],
-  [4],
-  [-1]
-];
-
-
-console.log(solve(example, ind));
+module.exports = {
+  solve
+};
