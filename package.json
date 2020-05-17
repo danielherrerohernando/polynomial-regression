@@ -1,0 +1,22 @@
+{
+  "name": "polynomial-regression",
+  "version": "1.0.0",
+  "description": "Model generator based on the method of least squares.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielherrerohernando/polynomial-regression.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielherrerohernando/polynomial-regression/issues"
+  },
+  "homepage": "https://github.com/danielherrerohernando/polynomial-regression#readme",
+  "devDependencies": {
+    "eslint": "^7.0.0"
+  }
+}
