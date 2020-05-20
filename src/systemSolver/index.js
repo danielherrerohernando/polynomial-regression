@@ -1,5 +1,4 @@
 const deepClone = arr => arr.map(row=>[].concat(row));
-const rounder = n => Math.round(n*10000000000)/10000000000;
 
 const triangularize = (matrix, indep) => {
   const m = deepClone(matrix);
