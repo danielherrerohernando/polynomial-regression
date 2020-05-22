@@ -1,4 +1,4 @@
-const buildArray = size => new Array(size).fill('');
+const { buildArray } = require('../helpers');
 
 const buildBase = degree => buildArray(degree+1).map((_,i) => x => x**i);
 

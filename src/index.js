@@ -1,4 +1,4 @@
-const { buildSystem } = require('./matrixBuilders');
+const { buildSystem } = require('./systemBuilder');
 const { solve } = require('./systemSolver');
 
 

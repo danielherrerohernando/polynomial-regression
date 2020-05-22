@@ -1,33 +1,30 @@
-const deepClone = arr => arr.map(row=>[].concat(row));
+const buildAugmentedMatrix = (leftMatrix, rightMatrix) => leftMatrix.map((row,i)=>row.concat(rightMatrix[i]));
 
-const triangularize = (matrix, indep) => {
-  const m = deepClone(matrix);
-  const b = deepClone(indep);
-  const n = m.length;
+const triangularize = (augmentedMatrix) => {
+  const n = augmentedMatrix.length;
   for (let i=0; i<n-1; i++) {
     for (let j=i+1; j<n; j++) {
-      const c = m[j][i]/m[i][i];
-      for (let k=i+1; k<n; k++) {
-        m[j][k] = m[j][k] - c*m[i][k];
+      const c = augmentedMatrix[j][i]/augmentedMatrix[i][i];
+      for (let k=i+1; k<n+1; k++) {
+        augmentedMatrix[j][k] = augmentedMatrix[j][k] - c*augmentedMatrix[i][k];
       }
-      b[j][0] = b[j][0] - c*b[i][0];
     }
   }
-  return [m,b];
+  return augmentedMatrix;
 };
 
-const backSubstitute = (matrix, indep) => {
-  const n = matrix.length;
+const backSubstitute = (augmentedMatrix) => {
   const x = [];
-  for (let i=n-1; i>=0; i--) {
-    const minus = x.reduce((acc,val,idx)=>acc+=val*matrix[i][n-1-idx],0);
-    const sol = (indep[i][0] - minus)/matrix[i][i];
-    x.push(sol);
+  const n = augmentedMatrix.length;
+  for (let i=0; i<n; i++) {
+    const irev = n-i-1;
+    const alreadySolvedTerms = x.reduce((acc,val,idx) => acc + val*augmentedMatrix[irev][n-1-idx], 0);
+    x.push((augmentedMatrix[irev][n] - alreadySolvedTerms) / augmentedMatrix[irev][irev]);
   }
   return x.reverse();
 };
 
-const solve = (coefficients, independent) => backSubstitute(...triangularize(coefficients, independent));
+const solve = (leftMatrix, rightMatrix) => backSubstitute(triangularize(buildAugmentedMatrix(leftMatrix, rightMatrix)));
 
 module.exports = {
   solve
