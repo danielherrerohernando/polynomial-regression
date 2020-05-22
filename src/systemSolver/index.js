@@ -16,10 +16,9 @@ const triangularize = (augmentedMatrix) => {
 const backSubstitute = (augmentedMatrix) => {
   const x = [];
   const n = augmentedMatrix.length;
-  for (let i=0; i<n; i++) {
-    const irev = n-i-1;
-    const alreadySolvedTerms = x.reduce((acc,val,idx) => acc + val*augmentedMatrix[irev][n-1-idx], 0);
-    x.push((augmentedMatrix[irev][n] - alreadySolvedTerms) / augmentedMatrix[irev][irev]);
+  for (let i=n-1; i>=0; i--) {
+    const alreadySolvedTerms = x.reduce((acc,val,idx) => acc + val*augmentedMatrix[i][n-1-idx], 0);
+    x.push((augmentedMatrix[i][n] - alreadySolvedTerms) / augmentedMatrix[i][i]);
   }
   return x.reverse();
 };
