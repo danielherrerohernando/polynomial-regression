@@ -1,30 +1,21 @@
-const buildTransformations = degree => new Array(degree+1).fill('').map((_,i)=>x=>x**i);
+const buildArray = size => new Array(size).fill('');
 
-const buildGramMatrix = (data, transformations) => {
-  const m = [];
-  const cache = {};
-  for (let i=0; i<transformations.length; i++) {
-    m[i] = [];
-    for (let j=0; j<transformations.length; j++) {
-      const id = [i,j].sort().join('');
-      m[i][j] = cache[id] || data.reduce((acc,[x])=> acc + transformations[i](x)*transformations[j](x),0);
-      cache[id] = m[i][j];
-    }
-  }
-  return m;
-};
+const buildBase = degree => buildArray(degree+1).map((_,i) => x => x**i);
 
-const buildIndependentTerm = (data, transformations) => {
-  const m = [];
-  for (let i=0; i<transformations.length; i++) {
-    m[i] = [];
-    m[i][0] = data.reduce((acc,[x,y])=> acc + transformations[i](x)*y,0);
-  }
-  return m;
+const buildGramMatrix = (data, base) => buildArray(base.length)
+  .map((_,i) => buildArray(base.length)
+  .map((_,j) => data.reduce((acc,[x]) => acc + base[i](x)*base[j](x),0)));
+
+const buildIndependentTerm = (data, base) => buildArray(base.length)
+  .map((_,i) => [].concat(data.reduce((acc,[x,y]) => acc + base[i](x)*y,0)));
+
+const buildSystem = (data, degree) => {
+  const base = buildBase(degree);
+  const gramMatrix = buildGramMatrix(data,base);
+  const independentTerm = buildIndependentTerm(data,base);
+  return [gramMatrix, independentTerm];
 };
 
 module.exports = {
-  buildTransformations,
-  buildGramMatrix,
-  buildIndependentTerm
+  buildSystem
 };

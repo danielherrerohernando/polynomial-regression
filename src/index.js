@@ -1,18 +1,14 @@
-const { buildTransformations, buildGramMatrix, buildIndependentTerm } = require('./matrixBuilders');
+const { buildSystem } = require('./matrixBuilders');
 const { solve } = require('./systemSolver');
 
 
 const createModel = () => {
 
-  const estimator = {
-    0: x => x
-  };
+  const estimator = {};
 
   const fit = data => degree => {
-    const base = buildTransformations(degree);
-    const gramMatrix = buildGramMatrix(data,base);
-    const independentTerm = buildIndependentTerm(data,base);
-    const coefficients = solve(gramMatrix,independentTerm);
+    const system = buildSystem(data, degree);
+    const coefficients = solve(...system);
     estimator[degree] = x => coefficients.reduce((acc,c,i)=>acc+c*x**i,0);
   };
 
