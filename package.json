@@ -1,6 +1,6 @@
 {
   "name": "polynomial-regression",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Model generator based on the method of least squares.",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,7 @@
     "url": "git+https://github.com/danielherrerohernando/polynomial-regression.git"
   },
   "author": "Daniel Herrero Hernando",
+  "keywords": ["math", "polynomial", "ml", "regression", "data-analytics"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/danielherrerohernando/polynomial-regression/issues"
