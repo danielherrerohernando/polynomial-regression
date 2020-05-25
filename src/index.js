@@ -38,11 +38,3 @@ const createModel = () => {
 module.exports = {
   createModel
 };
-
-const {mockData02} = require('../test/mockData');
-
-const model = createModel();
-
-model.fit(mockData02, new Array(28).fill('').map((_,i)=>i));
-
-model.saveExpressions('./saved.json');
