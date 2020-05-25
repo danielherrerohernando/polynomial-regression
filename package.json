@@ -1,6 +1,6 @@
 {
   "name": "polynomial-regression",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Model generator based on the method of least squares.",
   "main": "index.js",
   "scripts": {
