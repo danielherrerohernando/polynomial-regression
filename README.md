@@ -11,6 +11,9 @@ The API is designed in a way that allows creating different models based on each
 Let's illustrate its usage with a simple example.
 We are given these data points.
 We have them stored as an array of [x,y] values:
+```javascript
+const data = [ [ 1, 2.4 ],  [ 1.5, 2.6 ], [ 2, 3 ], [ 2.5, 3.2 ] ... ];
+```
 ![Image of Data Points](images/datapoints.png)
 We want to find a model that allows us to interpolate or estimate unknown values according to this information.
 In this example, we are going to use a low degree (3) and a higher one (20).
