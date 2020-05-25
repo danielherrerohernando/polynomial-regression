@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: [12.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -28,8 +28,3 @@ jobs:
           npm run test
         env:
           CI: true
-      - name: publish test results
-        uses: actions/upload-artifact@v1
-        with:
-          name: testresults
-          path: testresults/test-results.xml
