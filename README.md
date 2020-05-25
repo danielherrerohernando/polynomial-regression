@@ -30,6 +30,14 @@ model.estimate(20,unknownXValue);
 model.saveExpressions('./expressionsForGraphs.json');
 
 ```
+The file saved looks like this:
+```javascript
+{
+  "3": "+1.5062596662599177*x^0+1.425302045761659*x^1 ... "
+  "20": "+66.40442892021944*x^0-204.3486735913864*x^1 ... "
+}
+```
+And we can easily copy&paste those strings and plot the corresponding functions.
 ![Image of Degrees and fitting process](images/combination.gif)
 ## API Reference
 | Method  | Description | Arguments to be passed |
