@@ -2,7 +2,7 @@
 Model generator based on the method of least squares.
 
 ## Usage
-There is a unique entry-point, the createModel method.
+There is a unique entry-point, the ***createModel*** method.
 
 Once we have created our model we can fit it by feeding it with data and specifying the desired degree/s of our resulting model/s.
 
@@ -30,7 +30,7 @@ model.estimate(20,unknownXValue);
 model.saveExpressions('./expressionsForGraphs.json');
 
 ```
-
+![Image of Degrees and fitting process](images/combination.gif)
 ## API Reference
 | Method  | Description | Arguments to be passed |
 | ------------- | ------------- | ----------- |
