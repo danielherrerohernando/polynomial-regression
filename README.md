@@ -42,8 +42,8 @@ And we can easily copy&paste those strings and plot the corresponding functions.
 ## API Reference
 | Method  | Description | Arguments to be passed |
 | ------------- | ------------- | ----------- |
-| fit | Calculates coefficients for each degree provided and stores them internally | Data <Array<[x,y]>>, Degrees<Array<Number>>  |
-| estimate | Returns the estimated value | Degree<Number>, xValue<Number> |
-| loadParams | Loads precalculated coefficients merging them into the current model internal store | Path<string> |
-| saveParams | Save the current model coefficients in a JSON file | Path<string> |
-| saveExpressions | Turn the current model coefficients into reusable expressions and save them in a JSON file | Path<string> |
+| fit | Calculates coefficients for each degree provided and stores them internally | Data <Array<[x,y]>>, Degrees <Array<Number\>>  |
+| estimate | Returns the estimated value | Degree \<Number\>, xValue \<Number\> |
+| loadParams | Loads precalculated coefficients merging them into the current model internal store | Path \<string\> |
+| saveParams | Save the current model coefficients in a JSON file | Path \<string\> |
+| saveExpressions | Turn the current model coefficients into reusable expressions and save them in a JSON file | Path \<string\> |
