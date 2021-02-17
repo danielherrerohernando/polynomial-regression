@@ -31,8 +31,15 @@ const createModel = () => {
     },{});
     writeFileSync(path, JSON.stringify(paramsWithExpressions, null, 2));
   };
+  
+  const expressions = () => {
+    return Object.entries(params).reduce((acc,[degree,coefficients]) => {
+      acc[degree] = getExpression(coefficients);
+      return acc;
+    },{});
+  };
 
-  return { fit, estimate, loadParams, saveParams, saveExpressions };
+  return { fit, estimate, loadParams, saveParams, saveExpressions, expressions };
 };
 
 module.exports = {
