@@ -50,3 +50,4 @@ And we can easily copy&paste those strings and plot the corresponding functions.
 | loadParams | Loads precalculated coefficients merging them into the current model internal store | Path \<string\> |
 | saveParams | Save the current model coefficients in a JSON file | Path \<string\> |
 | saveExpressions | Turn the current model coefficients into reusable expressions and save them in a JSON file | Path \<string\> |
+| expressions | Turn the current model coefficients into reusable expressions and return them as a variable | None |
