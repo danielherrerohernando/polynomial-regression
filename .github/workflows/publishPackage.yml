@@ -1,6 +1,7 @@
 name: Package Publishing to NPM
 
 on:
+  workflow_dispatch:
   release:
     types: [created]
 
