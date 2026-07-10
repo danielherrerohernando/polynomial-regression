@@ -1,53 +1,99 @@
 # polynomial-regression
-Model generator based on the method of least squares.
+
+Model generator based on the method of least squares. Zero dependencies, ships
+both ESM and CommonJS builds with TypeScript type declarations.
+
+## Installation
+
+```bash
+npm install polynomial-regression
+```
 
 ## Usage
-There is a unique entry-point, the ***createModel*** method.
 
-Once we have created our model we can fit it by feeding it with data and specifying the desired degree/s of our resulting model/s.
+There is a single entry point, the **`createModel`** function.
 
-The API is designed in a way that allows creating different models based on each degree at the same time. Instead of having a fixed estimation function, we have an internal object where we are going to store the corresponding coefficients for each degree. This way we can easily compare which degree suits best our problem by calling the estimate function specifying the different degrees.
+Once we have created our model we can fit it by feeding it with data and
+specifying the desired degree/s of our resulting model/s.
 
-Let's illustrate its usage with a simple example.
-We are given these data points.
-We have them stored as an array of [x,y] values:
+The API is designed so that a single model can hold several fits at once, keyed
+by degree. Instead of a fixed estimation function, coefficients for each degree
+are stored internally, so we can compare which degree suits our problem best by
+calling `estimate` with different degrees.
+
+Let's illustrate its usage with a simple example. We are given some data points,
+stored as an array of `[x, y]` tuples:
+
 ```javascript
-const data = [ [ 1, 2.4 ],  [ 1.5, 2.6 ], [ 2, 3 ], [ 2.5, 3.2 ] ... ];
+const data = [
+  [1, 2.4],
+  [1.5, 2.6],
+  [2, 3],
+  [2.5, 3.2] /* ... */,
+];
 ```
-![Image of Data Points](images/datapoints.png)
-We want to find a model that allows us to interpolate or estimate unknown values according to this information.
-In this example, we are going to use a low degree (3) and a higher one (20).
 
-The code would look as follows:
+![Image of Data Points](images/datapoints.png)
+
+We want a model that lets us interpolate or estimate unknown values from this
+information. In this example we use a low degree (3) and a higher one (20):
+
 ```javascript
-const { createModel } = require('polynomial-regression');
-const { data } = require('./example_dataset');
+import { createModel } from 'polynomial-regression';
+// CommonJS: const { createModel } = require('polynomial-regression');
 
 const model = createModel();
 
-model.fit(data, [3,20]);
+model.fit(data, [3, 20]);
 
-model.estimate(3,unknownXValue);
-model.estimate(20,unknownXValue);
-
-model.saveExpressions('./expressionsForGraphs.json');
-
+model.estimate(3, unknownXValue);
+model.estimate(20, unknownXValue);
 ```
-The file saved looks like this:
-```javascript
-{
-  "3": "+1.5062596662599177*x^0+1.425302045761659*x^1 ... "
-  "20": "+66.40442892021944*x^0-204.3486735913864*x^1 ... "
-}
-```
-And we can easily copy&paste those strings and plot the corresponding functions.
+
 ![Image of Degrees and fitting process](images/combination.gif)
+
+### Reusable expressions
+
+`expressions()` turns the fitted coefficients into plottable strings you can
+copy & paste into graphing tools:
+
+```javascript
+const expressions = model.expressions();
+// {
+//   "3":  "+1.5062596662599177*x^0+1.425302045761659*x^1 ...",
+//   "20": "+66.40442892021944*x^0-204.3486735913864*x^1 ..."
+// }
+```
+
+### Persisting and restoring a fit
+
+Fitting can be expensive, so you can serialize a model's coefficients and
+rehydrate later without refitting. `toJSON()` returns a plain, deep-copied
+object (and is picked up automatically by `JSON.stringify`); pass those
+coefficients to `createModel` to restore:
+
+```javascript
+import { writeFileSync, readFileSync } from 'node:fs';
+
+// Save — persistence is left to you, so any storage works.
+writeFileSync('./coefficients.json', JSON.stringify(model));
+
+// Restore later, no refitting required.
+const restored = createModel(JSON.parse(readFileSync('./coefficients.json', 'utf8')));
+restored.estimate(3, unknownXValue);
+```
+
 ## API Reference
-| Method  | Description | Arguments to be passed |
-| ------------- | ------------- | ----------- |
-| fit | Calculates coefficients for each degree provided and stores them internally | Data <Array<[x,y]>>, Degrees <Array<Number\>>  |
-| estimate | Returns the estimated value | Degree \<Number\>, xValue \<Number\> |
-| loadParams | Loads precalculated coefficients merging them into the current model internal store | Path \<string\> |
-| saveParams | Save the current model coefficients in a JSON file | Path \<string\> |
-| saveExpressions | Turn the current model coefficients into reusable expressions and save them in a JSON file | Path \<string\> |
-| expressions | Turn the current model coefficients into reusable expressions and return them as a variable | None |
+
+| Method        | Description                                                                                     | Arguments                                         | Returns                    |
+| ------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------- | -------------------------- |
+| `createModel` | Create a model, optionally rehydrated from previously fitted coefficients keyed by degree       | `initialParams?` `Record<number, number[]>`       | `Model`                    |
+| `fit`         | Calculate coefficients for each degree provided and store them internally (merged across calls) | `data` `[number, number][]`, `degrees` `number[]` | `void`                     |
+| `estimate`    | Return the estimated value, or `undefined` if the degree has not been fitted                    | `degree` `number`, `x` `number`                   | `number \| undefined`      |
+| `expressions` | Turn the current coefficients into reusable expression strings                                  | none                                              | `Record<number, string>`   |
+| `toJSON`      | Return a deep copy of the current coefficients keyed by degree (also used by `JSON.stringify`)  | none                                              | `Record<number, number[]>` |
+
+## Migrating from v2
+
+See [CHANGELOG.md](CHANGELOG.md). In short: `saveParams()` → `toJSON()`,
+`loadParams(obj)` → `createModel(obj)`, and `saveExpressions()` → `expressions()`.
